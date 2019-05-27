@@ -1,10 +1,10 @@
-package component
+package template
 
 import (
 	templatev1 "github.com/openshift/api/template/v1"
 )
 
-type AmpTemplate struct {
+type Amp struct {
 	options    []string
 	components []Component
 }

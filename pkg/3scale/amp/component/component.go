@@ -1,10 +1,6 @@
 package component
 
-import templatev1 "github.com/openshift/api/template/v1"
-
 type Component interface {
-	AssembleIntoTemplate(*templatev1.Template, []Component)
-	PostProcess(*templatev1.Template, []Component)
 }
 
 type ComponentType string

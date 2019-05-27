@@ -16,7 +16,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/3scale/3scale-operator/pkg/3scale/amp/component"
+	amptemplate "github.com/3scale/3scale-operator/pkg/3scale/amp/template"
 	templatev1 "github.com/openshift/api/template/v1"
 	"github.com/spf13/cobra"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -60,7 +60,7 @@ to quickly create a Cobra application.`
 
 func getAvailableOrderedComponents() []component.ComponentType {
 	return []component.ComponentType{
-		component.AmpTemplateType,
+		amptemplate.AmpType,
 		component.AmpS3TemplateType,
 		component.AmpEvalTemplateType,
 		component.AmpHATemplateType,
@@ -110,8 +110,8 @@ func runCommand(cmd *cobra.Command, args []string) {
 	}
 	for _, element := range availableOrderedComponents {
 		if _, ok := inputComponents[string(element)]; ok {
-			res := component.NewComponent(string(element), componentOptions)
-			res.AssembleIntoTemplate(template, componentObjects)
+			res := amptemplate.NewTemplate(string(element), componentOptions)
+			res.Assemble(template, componentObjects)
 		}
 	}
 

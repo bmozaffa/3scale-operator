@@ -1,6 +1,11 @@
-package component
+package template
 
-func NewComponent(componentName string, componentOptions []string) Component {
+type Template interface {
+	Assemble(*templatev1.Template, []Component)
+	PostProcess(*templatev1.Template, []Component)
+}
+
+func NewTemplate(componentName string, componentOptions []string) Component {
 	var component Component
 
 	switch ComponentType(componentName) {
