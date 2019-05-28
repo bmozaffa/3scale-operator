@@ -4,41 +4,27 @@ import (
 	templatev1 "github.com/openshift/api/template/v1"
 )
 
-type Amp struct {
-	options    []string
-	components []Component
-}
+func NewAmpTemplate(options []string) *templatev1.Template {
+	//components := []Component{
+	//	NewAmpImages(options),
+	//	NewRedis(options),
+	//	NewBackend(options),
+	//	NewMysql(options),
+	//	NewMemcached(options),
+	//	NewSystem(options),
+	//	NewZync(options),
+	//	NewApicast(options),
+	//	NewWildcardRouter(options),
+	//}
 
-type AmpTemplateOptions struct {
-	ampImagesOptions      AmpImagesOptions
-	redisOptions          RedisOptions
-	backendOptions        BackendOptions
-	mysqlOptions          MysqlOptions
-	memcachedOptions      MemcachedOptions
-	systemOptions         SystemOptions
-	zyncOptions           ZyncOptions
-	apicastOptions        ApicastOptions
-	wildcardRouterOptions WildcardRouterOptions
-}
-
-func NewAmpTemplate(options []string) *AmpTemplate {
-	components := []Component{
-		NewAmpImages(options),
-		NewRedis(options),
-		NewBackend(options),
-		NewMysql(options),
-		NewMemcached(options),
-		NewSystem(options),
-		NewZync(options),
-		NewApicast(options),
-		NewWildcardRouter(options),
+	adapterList := []adapters.Adapter{
+		adapters.NewImagesAdapter(options),
+		adapters.NewRedisAdapter(options),
+		adapters.NewApicastAdapter(options),
+		adapters.NewBackendAdapter(options),
 	}
 
-	ampTemplate := &AmpTemplate{
-		options:    options,
-		components: components,
-	}
-	return ampTemplate
+	return Generator(adapterList)
 }
 
 func (ampTemplate *AmpTemplate) AssembleIntoTemplate(template *templatev1.Template, otherComponents []Component) {
